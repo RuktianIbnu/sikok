@@ -637,12 +637,6 @@ video {
 .mb-14{
 	margin-bottom: 3.5rem;
 }
-.mb-12{
-	margin-bottom: 3rem;
-}
-.mb-8{
-	margin-bottom: 2rem;
-}
 .-mt-28{
 	margin-top: -7rem;
 }
@@ -717,6 +711,12 @@ video {
 }
 .w-96{
 	width: 24rem;
+}
+.w-9{
+	width: 2.25rem;
+}
+.w-1\/2{
+	width: 50%;
 }
 .w-screen{
 	width: 100vw;
@@ -959,11 +959,18 @@ video {
 	font-size: 1.25rem;
 	line-height: 1.75rem;
 }
+.text-base{
+	font-size: 1rem;
+	line-height: 1.5rem;
+}
 .font-medium{
 	font-weight: 500;
 }
 .font-light{
 	font-weight: 300;
+}
+.font-semibold{
+	font-weight: 600;
 }
 .font-bold{
 	font-weight: 700;

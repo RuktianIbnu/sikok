@@ -1,73 +1,77 @@
-import CardBody from "@material-tailwind/react/CardBody";
-import Card from "@material-tailwind/react/Card";
-import CardHeader from "@material-tailwind/react/CardHeader";
-import H5 from "@material-tailwind/react/Heading5";
-import InputIcon from "@material-tailwind/react/InputIcon";
-import Page from "components/login/Page";
-import Button from "@material-tailwind/react/Button";
+import IndonesiaMap from "../static/babel.png";
+import ImigrasiLogo from "../static/imigrasi.png";
+import LoginForm from "../components/auth/LoginForm";
+import ForgotPassword from "../components/auth/ForgotPassword";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import ResetPassword from "../components/auth/ResetPassword";
 
-export default function Landing() {
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
+function Login() {
+  const [showOtp, setShowOtp] = useState(false);
+  const [showForgotPass, setShowForgotPass] = useState(false);
+  const [tempToken, setTempToken] = useState("");
+  const query = useQuery();
+
   return (
-    <>
-      <div className="absolute z-20"></div>
-      <main>
-        <Page>
-          <div className="pt-16">
-            <Card className="w-96">
-              <CardHeader color="lightBlue" className="w-9">
-                <H5 color="white" style={{ marginBottom: 0 }}>
-                  Login
-                </H5>
-              </CardHeader>
-
-              <div className="w-1/2">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block font-semibold text-sm"
-                  >
-                    Email
-                  </label>
-                  <input
-                    className="py-2 px-2 bg-gray-100 rounded block w-full focus:outline-none text-base"
-                    name="email"
-                    placeholder="Email"
-                    type="email"
-                    autoComplete="false"
-                    // onChange={formik.handleChange}
-                    // value={formik.values.email}
-                  />
-                </div>
-                <div className="py-2">
-                  <label
-                    htmlFor="password"
-                    className="block font-semibold text-sm"
-                  >
-                    Password
-                  </label>
-                  <input
-                    className="py-2 px-2 bg-gray-100 rounded block w-full focus:outline-none text-base"
-                    name="password"
-                    placeholder="Password"
-                    type="password"
-                    // onChange={formik.handleChange}
-                    // value={formik.values.password}
-                  />
-                </div>
-                <div class="py-2">
-                  <button
-                    type="submit"
-                    style={{ background: "#FFCD05" }}
-                    className="inline-block py-2 px-4 w-full text-center rounded font-bold cursor-pointer focus:outline-none"
-                  >
-                    Login
-                  </button>
-                </div>
-              </div>
-            </Card>
+    <div className="h-screen">
+      <div className="grid grid-cols-12">
+        <div className="col-span-3 h-screen relative">
+          <div className="absolute top-1/4 w-full px-6">
+              <LoginForm
+                setTempToken={(val) => setTempToken(val)}
+                setShowOtp={(val) => setShowOtp(val)} //
+                setShowForgotPass={(val) => setShowForgotPass(val)}
+              />
+            {/* {showForgotPass === true ? (
+              <ForgotPassword
+                setShowForgotPass={(val) => setShowForgotPass(val)}
+              />
+            ) : query.get("token") !== null ? (
+              <ResetPassword />
+            ) : (
+              <LoginForm
+                setTempToken={(val) => setTempToken(val)}
+                setShowOtp={(val) => setShowOtp(val)} //
+                setShowForgotPass={(val) => setShowForgotPass(val)}
+              />
+            )} */}
           </div>
-        </Page>
-      </main>
-    </>
+        </div>
+        <div
+          className="h-screen col-span-9 relative px-16"
+          style={{ background: "#120078" }}
+        >
+          <img
+            src={IndonesiaMap}
+            alt="Peta Indonesia"
+            className="object-cover absolute top-0 left-0 px-10 w-full"
+          />
+          <div className="absolute bottom-10 left-10">
+            <div className="flex flex-row">
+              <img
+                src={ImigrasiLogo}
+                alt="Logo Imigrasi"
+                style={{ width: "11%" }}
+                className="object-contain"
+              />
+              <div className="ml-8">
+                <p className="text-white font-extrabold text-3xl">
+                  Direktorat Jenderal Imigrasi
+                </p>
+                <p className="text-white font-extrabold text-3xl">
+                  Kementerian Hukum dan HAM Republik Indonesia
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
+
+export default Login;
