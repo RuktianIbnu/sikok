@@ -43,7 +43,7 @@ function Login() {
         </div>
         <div
           className="h-screen col-span-9 relative px-16"
-          style={{ background: "#120078" }}
+          style={{ background: "#69afb5" }}
         >
           <img
             src={IndonesiaMap}

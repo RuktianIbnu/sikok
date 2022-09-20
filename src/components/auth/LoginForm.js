@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { axiosGeneral, errorHandler } from "../helpers/global";
-import { setLoading } from "../../store/actionCreator";
+import { setLoading,setAccessToken } from "../../store/actionCreator";
 import { useToasts } from "react-toast-notifications";
 import axios from "axios";
 
@@ -22,25 +22,17 @@ function LoginForm({ setShowOtp, setTempToken, setShowForgotPass }) {
       const email = values.email
       const  password = values.password
       axios.defaults.withCredentials = true;
-        // const response = axiosGeneral.get('sanctum/csrf-cookie','').then(response => {
-        //     return axiosGeneral.post(`/login?email=${email}&password=${password}`),{ 
-        //         xsrfHeaderName: "X-XSRF-TOKEN", // change the name of the header to "X-XSRF-TOKEN" and it should works
-        //         withCredentials: true
-        //       };
-        // })
-        // console.log(response)
-      
-      const response = await axiosGeneral.post(`/login?email=${email}&password=${password}`,{
-        XSRF: "X-XSRF-TOKEN", // change the name of the header to "X-XSRF-TOKEN" and it should works
-        withCredentials: true
-      });
-      const { status, data } = response;
-      console.log(response)
-      if (status === 200) {
-        setTempToken(data.data.temp_token);
-        setShowOtp(true);
-        dispatch(setLoading(false));
-      }
+        const response = axios.get('http://10.0.30.90/sanctum/csrf-cookie','').then(response => {
+            axiosGeneral.post(`/login?email=${email}&password=${password}`).then(res => {
+              const {data,status} = res;
+              // console.log(res)
+              if (status === 200) {
+                // dispatch(setUser(data.data.user_metadata));
+                dispatch(setAccessToken(data.token));
+                dispatch(setLoading(false));
+              }
+            })
+        })
     } catch (error) {
       addToast(errorHandler(error), { appearance: "error" });
     }

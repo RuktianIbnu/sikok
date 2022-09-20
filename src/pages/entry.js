@@ -1,14 +1,16 @@
 import loadable from "@loadable/component";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useToasts } from "react-toast-notifications";
 import { axiosGeneral, errorHandler } from "../components/helpers/global";
 import { useState, useEffect } from "react";
+// import { accessToken } from "store/reducers";
 
 const MainLayout = loadable(() => import("../components/MainLayout"));
 
 function Entry() {
   const dispatch = useDispatch();
   const { addToast } = useToasts();
+  const accessToken = useSelector((state) => state.accessToken);
   const [pnbpPaspor, setPnbpPaspor] = useState([]);
   const [pnbpIntal, setPnbpIntal] = useState([]);
   const [pnbpOther, setPNBPOther] = useState([]);
@@ -24,8 +26,9 @@ function Entry() {
   const fetchPNBP = async () => {
     try {
       const headers = {
-        Authorization: "Bearer 8|yXOoZM8DCFJgeRKyETGfarBrXYFa1x6XINF6hCR7",
+        Authorization: "Bearer " + accessToken,
       };
+
       const response = await axiosGeneral.get("/kategoripnbp", {
         headers,
       });
@@ -36,7 +39,7 @@ function Entry() {
       const pnbpOther = data[3];
 
       const anakArr = [];
-      setPnbpPaspor([])
+      setPnbpPaspor([]);
       if (status === 200) {
         setPnbpPaspor(pnbpPaspor);
         setPnbpIntal(pnbpIntal);
@@ -46,14 +49,6 @@ function Entry() {
         setAnakPNBPIntal(pnbpIntal.children);
         setAnakPNBPOther(pnbpOther.children);
 
-        // for (i; i < pnbpIntal.children.lenght; i++){
-        //   if(i === 0){
-        //     anakArr.push(pnbpIntal.children[i])
-        //   }
-        //   console.log(i)
-        // }
-        
-        // setAnaknyaPNBPIntal(anakArr)
       } else if (status === 500) {
         addToast("Gagal Mengambil Data Instansi", { appearance: "error" });
       }
@@ -72,82 +67,227 @@ function Entry() {
             </h1>
 
             {/* PASPOR */}
-              <div className="flex flex-row break-normal py-2 px-3 items-center hover:opacity-80">
-                <p className="text-sm mr-52 mb-0 w-11/12">A. {pnbpPaspor.nama_layanan}</p>
-                <p className="text-sm mr-2 mb-0 w-11/12">Laki-laki</p>
-                <p className="text-sm mr-2 mb-0 w-11/12">Perempuan</p>
-                <p className="text-sm mr-2 mb-0 w-11/12">Rupiah</p>
-              </div>
-              {anakPnbpPaspor.map((item, index) => (
+            <div className="flex flex-row break-normal py-2 px-0 items-center hover:opacity-80">
+              <p className="text-sm mr-0 mb-0 w-full">
+                A. {pnbpPaspor.nama_layanan}
+              </p>
+            </div>
+            {anakPnbpPaspor.map((item, index) => (
               <div
-              key={index}
-              style={{ background: index % 2 === 0 ? "#E7E7E7" : "#F3F3F3" }}
-              className="flex flex-row break-normal py-2 px-3 items-center hover:opacity-80"
+                key={index}
+                style={{ background: index % 2 === 0 ? "#87CEEB" : "#ADD8E6" }}
+                className="flex flex-row break-normal py-2 px-0 items-center hover:opacity-80"
               >
-              <p className="text-sm text-right mr-2 mb-0 w-20">{index + 1}.</p>
-              <p className="text-sm mr-2 mb-0 w-11/12">{item.nama_layanan}</p>
+                <p className="text-sm text-right mr-2 mb-0 w-20">{index + 1}.</p>
+                <p className="text-sm mr-2 mb-0 w-full">{item.nama_layanan}</p>
+                <input className="py-2 px-3 mr-2 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                  name="Laki-laki"
+                  placeholder="Laki-laki"
+                  type="text"
+                ></input>
+                <input className="py-2 px-3 mr-2 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                  name="Perempuan"
+                  placeholder="Perempuan"
+                  type="text"
+                ></input>
+                <input className="py-2 px-3 mr-16 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                  name="Rupiah"
+                  placeholder="Rupiah"
+                  type="text"
+                ></input>
               </div>
-              ))}
+            ))}
             {/*-------------------------------------------------------------------------------------- */}
 
             {/* INTAL */}
-              <div className="flex flex-row break-normal py-2 px-3 items-center hover:opacity-80">
-                <p className="text-sm mr-52 mb-0 w-11/12">B. {pnbpIntal.nama_layanan}</p>
-                <p className="text-sm mr-2 mb-0 w-11/12">Laki-laki</p>
-                <p className="text-sm mr-2 mb-0 w-11/12">Perempuan</p>
-                <p className="text-sm mr-2 mb-0 w-11/12">Rupiah</p>
-              </div>
-              {anakPnbpIntal.map((item, index) => (
-              <div
-              key={index}
-              style={{ background: index % 2 === 0 ? "#E7E7E7" : "#F3F3F3" }}
-              className="flex flex-row break-normal py-2 px-3 items-center hover:opacity-80"
-              >
-              <p className="text-sm text-right mr-2 mb-0 w-20">{index + 1}.</p>
-              <p className="text-sm mr-2 mb-0 w-11/12">{item.nama_layanan}</p>
-                {/* <div
-                key={index}
-                style={{ background: index % 2 === 0 ? "#E7E7E7" : "#F3F3F3" }}
-                className="flex flex-row break-normal py-2 px-3 items-center hover:opacity-80">
-                {anaknyaPnbpIntal.map((items, indexs) => (
-                    <>
-                    <p className="text-sm text-right mr-2 mb-0 w-20">{indexs + 1}.</p>
-                    <p className="text-sm mr-2 mb-0 w-11/12">{items.nama_layanan}</p>
-                    </>
+            <div className="flex flex-row break-normal py-2 px-0 items-center hover:opacity-80">
+              <p className="text-sm mr-0 mb-0 w-full">
+                B. {pnbpIntal.nama_layanan}
+              </p>
+            </div>
+            {anakPnbpIntal.map((item, index) => (
+              <div>
+                <div
+                  key={index}
+                  className="flex flex-row break-normal py-2 px-0 items-center hover:opacity-80"
+                >
+                  <p className="text-sm text-left pl-10 mr-2 mb-0 w-full">
+                  {index + 1}. {item.nama_layanan}
+                  </p>
+                </div>
+                {item.children.map((x, z) => (
+                  <div
+                    key={z}
+                    style={{ background: z % 2 === 0 ? "#87CEEB" : "#ADD8E6" }}
+                    className="flex flex-row break-normal py-2 px-14 items-center hover:opacity-80"
+                  >
+                    <p className="text-sm text-right mr-2 mb-0 w-20">
+                      {z + 1}.
+                    </p>
+                    <p className="text-sm mr-2 mb-0 w-11/12">
+                      {x.nama_layanan}
+                    </p>
+                    <input className="py-2 px-3 mr-2 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Laki-laki"
+                      placeholder="Laki-laki"
+                      type="text"
+                    ></input>
+                    <input className="py-2 px-3 mr-2 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Perempuan"
+                      placeholder="Perempuan"
+                      type="text"
+                    ></input>
+                    <input className="py-2 px-3 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Rupiah"
+                      placeholder="Rupiah"
+                      type="text"
+                    ></input>
+                  </div>
                 ))}
-                </div> */}
               </div>
-              ))}
+            ))}
             {/*-------------------------------------------------------------------------------------- */}
 
             {/* Other */}
-            <div className="flex flex-row break-normal py-2 px-3 items-center hover:opacity-80">
-                <p className="text-sm mr-52 mb-0 w-11/12">C. {pnbpOther.nama_layanan}</p>
-                <p className="text-sm mr-2 mb-0 w-11/12">Laki-laki</p>
-                <p className="text-sm mr-2 mb-0 w-11/12">Perempuan</p>
-                <p className="text-sm mr-2 mb-0 w-11/12">Rupiah</p>
-              </div>
-              {anakPnbpOther.map((item, index) => (
-              <div
-              key={index}
-              style={{ background: index % 2 === 0 ? "#E7E7E7" : "#F3F3F3" }}
-              className="flex flex-row break-normal py-2 px-3 items-center hover:opacity-80"
-              >
-              <p className="text-sm text-right mr-2 mb-0 w-20">{index + 1}.</p>
-              <p className="text-sm mr-2 mb-0 w-11/12">{item.nama_layanan}</p>
-                {/* <div
-                key={index}
-                style={{ background: index % 2 === 0 ? "#E7E7E7" : "#F3F3F3" }}
-                className="flex flex-row break-normal py-2 px-3 items-center hover:opacity-80">
-                {anaknyaPnbpIntal.map((items, indexs) => (
-                    <>
-                    <p className="text-sm text-right mr-2 mb-0 w-20">{indexs + 1}.</p>
-                    <p className="text-sm mr-2 mb-0 w-11/12">{items.nama_layanan}</p>
-                    </>
+            {/* <div className="flex flex-row break-normal py-2 px-0 items-center hover:opacity-80">
+              <p className="text-sm mr-0 mb-0 w-full">
+                C. {pnbpOther.nama_layanan}
+              </p>
+            </div>
+            {anakPnbpOther.map((item, index) => (
+              <div>
+                <div
+                  key={index}
+                  style={{
+                    background: index % 2 === 0 ? "#ADD8E6" : "#87CEEB",
+                  }}
+                  className="flex flex-row break-normal py-2 px-0 items-center hover:opacity-80"
+                >
+                  <p className="text-sm text-left pl-10 mr-2 mb-0 w-full">
+                  {index + 1}. {item.nama_layanan}
+                  </p>
+                </div>
+                {item.children.map((x, z) => (
+                  <div
+                    key={z}
+                    style={{ background: z % 2 === 0 ? "#87CEEB" : "#ADD8E6" }}
+                    className="flex flex-row break-normal py-2 px-14 items-center hover:opacity-80"
+                  >
+                    <p className="text-sm text-right mr-2 mb-0 w-20">
+                      {z + 1}.
+                    </p>
+                    <p className="text-sm mr-2 mb-0 w-11/12">
+                      {x.nama_layanan}
+                    </p><input className="py-2 px-3 mr-2 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Laki-laki"
+                      placeholder="Laki-laki"
+                      type="text"
+                    ></input>
+                    <input className="py-2 px-3 mr-2 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Perempuan"
+                      placeholder="Perempuan"
+                      type="text"
+                    ></input>
+                    <input className="py-2 px-3 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Rupiah"
+                      placeholder="Rupiah"
+                      type="text"
+                    ></input>
+                  </div>
                 ))}
-                </div> */}
               </div>
-              ))}
+            ))} */}
+            {/*-------------------------------------------------------------------------------------- */}
+
+            {/* Other */}
+            <div className="flex flex-row break-normal py-2 px-0 items-center hover:opacity-80">
+              <p className="text-sm mr-0 mb-0 w-full">
+                C. {pnbpOther.nama_layanan}
+              </p>
+            </div>
+            {anakPnbpOther.map((item, index) => (
+              <div>
+                {item.children == 0 && (
+                  <div
+                  key={index}
+                  style={{
+                    background: index % 2 === 0 ? "#ADD8E6" : "#87CEEB",
+                  }}
+                  className="flex flex-row break-normal py-2 px-0 items-center hover:opacity-80"
+                  >
+                    <p className="text-sm text-left pl-10 mr-2 mb-0 w-full">
+                      {index + 1}. {item.nama_layanan}
+                    </p>
+                    <input className="py-2 px-2 mr-2 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Laki-laki"
+                      placeholder="Laki-laki"
+                      type="text"
+                    ></input>
+                    <input className="py-2 px-2 mr-3 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Perempuan"
+                      placeholder="Perempuan"
+                      type="text"
+                    ></input>
+                    <input className="py-2 px-2 mr-14 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Rupiah"
+                      placeholder="Rupiah"
+                      type="text"
+                    ></input>
+                  </div>
+                )}
+                {item.nama_layanan === "Biaya Beban" && (
+                  <div
+                  key={index}
+                  style={{ background: index % 2 === 0 ? "#87CEEB" : "" }}
+                  className="flex flex-row break-normal py-2 px-0 items-center hover:opacity-80"
+                >
+                  <p className="text-sm text-left pl-10 mr-2 mb-0 w-full">
+                  {index + 1}. {item.nama_layanan}
+                  </p>
+                </div>
+                )}
+                {item.nama_layanan === "Kartu(KPP APEC) atau APEC Business Travel Card (ABTC)" && (
+                  <div
+                  key={index}
+                  style={{ background: index % 2 === 0 ? "#ADD8E6" : "#87CEEB" }}
+                  className="flex flex-row break-normal py-2 px-0 items-center hover:opacity-80"
+                >
+                  <p className="text-sm text-left pl-10 mr-2 mb-0 w-full">
+                  {index + 1}. {item.nama_layanan}
+                  </p>
+                </div>
+                )}
+                {item.children.map((x, z) => (
+                  <div
+                    key={z}
+                    style={{ background: z % 2 === 0 ? "#87CEEB" : "#ADD8E6" }}
+                    className="flex flex-row break-normal py-2 px-14 items-center hover:opacity-80"
+                  >
+                    <p className="text-sm text-right mr-2 mb-0 w-20">
+                      {z + 1}.
+                    </p>
+                    <p className="text-sm mr-2 mb-0 w-11/12">
+                      {x.nama_layanan}
+                    </p>
+                    <input className="py-2 px-3 mr-2 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Laki-laki"
+                      placeholder="Laki-laki"
+                      type="text"
+                    ></input>
+                    <input className="py-2 px-3 mr-2 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Perempuan"
+                      placeholder="Perempuan"
+                      type="text"
+                    ></input>
+                    <input className="py-2 px-3 bg-gray-100 rounded block w-1/5 focus:outline-none text-base"
+                      name="Rupiah"
+                      placeholder="Rupiah"
+                      type="text"
+                    ></input>
+                  </div>
+                ))}
+              </div>
+            ))}
             {/*-------------------------------------------------------------------------------------- */}
           </div>
         </div>

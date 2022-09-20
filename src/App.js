@@ -12,12 +12,11 @@ function App() {
   const accessToken = useSelector((state) => state.accessToken);
   // const loading = useSelector((state) => state.loading);
   const routes = [
-    { path: "/beranda", exact: true, component: () => <Beranda /> },
+    { path: "/", exact: true, component: () => <Beranda /> },
+    { path: "/entry", exact: true, component: () => <Entry /> },
   ];
   const authRoutes = [
     { path: "/", exact: true, component: () => <Login /> },
-    { path: "/beranda", exact: true, component: () => <Beranda /> },
-    { path: "/entry", exact: true, component: () => <Entry /> },
   ];
 
   return (

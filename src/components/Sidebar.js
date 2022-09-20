@@ -48,8 +48,8 @@ export default function Sidebar() {
       <MenuWrapper className="flex flex-col">
         <MenuItem
           text="Beranda"
-          onClick={() => history.push("/beranda")}
-          path="/beranda"
+          onClick={() => history.push("/")}
+          path="/"
         />
         <MenuItem
           text="Entry Data"

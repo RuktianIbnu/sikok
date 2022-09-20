@@ -3,7 +3,7 @@ import Header from "./Header";
 const MainLayout = ({ children }) => {
   return (
     <div
-      className="h-screen mt-24 items-start flex"
+      className="h-screen items-start flex"
       style={{ background: "#FAFBFC" }}
     >
       <Sidebar />
