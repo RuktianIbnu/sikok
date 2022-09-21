@@ -5,6 +5,7 @@ import loadable from "@loadable/component";
 import React from "react";
 const Beranda = loadable(() => import("./pages/beranda"));
 const Entry = loadable(() => import("./pages/entry"));
+const Laporan = loadable(() => import("./pages/laporan"));
 const Login = loadable(() => import("./pages/Login"));
 
 
@@ -14,6 +15,7 @@ function App() {
   const routes = [
     { path: "/", exact: true, component: () => <Beranda /> },
     { path: "/entry", exact: true, component: () => <Entry /> },
+    { path: "/laporan", exact: true, component: () => <Laporan /> },
   ];
   const authRoutes = [
     { path: "/", exact: true, component: () => <Login /> },
