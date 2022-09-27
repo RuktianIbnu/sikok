@@ -52,14 +52,29 @@ export default function Sidebar() {
           path="/"
         />
         <MenuItem
-          text="Entry Data"
-          onClick={() => history.push("/entry")}
-          path="/entry"
+          text="Paspor"
+          onClick={() => history.push("/paspor")}
+          path="/paspor"
         />
         <MenuItem
-          text="Laporan"
-          onClick={() => history.push("/laporan")}
-          path="/laporan"
+          text="Izin Tinggal"
+          onClick={() => history.push("/intal")}
+          path="/intal"
+        />
+        <MenuItem
+          text="Perlintasan"
+          onClick={() => history.push("/perlintasan")}
+          path="/perlintasan"
+        />
+        <MenuItem
+          text="Penegakan Hukum"
+          onClick={() => history.push("/gakum")}
+          path="/gakum"
+        />
+        <MenuItem
+          text="PNBP"
+          onClick={() => history.push("/pnbp")}
+          path="/pnbp"
         />
         {/* <MenuItem
           text="Data Survey"

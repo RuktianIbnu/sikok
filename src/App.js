@@ -4,8 +4,11 @@ import { useSelector } from "react-redux";
 import loadable from "@loadable/component";
 import React from "react";
 const Beranda = loadable(() => import("./pages/beranda"));
-const Entry = loadable(() => import("./pages/entry"));
-const Laporan = loadable(() => import("./pages/laporan"));
+const Paspor = loadable(() => import("./pages/paspor"));
+const Intal = loadable(() => import("./pages/intal"));
+const Perlintasan = loadable(() => import("./pages/perlintasan"));
+const Gakum = loadable(() => import("./pages/gakum"));
+const Pnbp = loadable(() => import("./pages/pnbp"));
 const Login = loadable(() => import("./pages/Login"));
 
 
@@ -14,8 +17,11 @@ function App() {
   // const loading = useSelector((state) => state.loading);
   const routes = [
     { path: "/", exact: true, component: () => <Beranda /> },
-    { path: "/entry", exact: true, component: () => <Entry /> },
-    { path: "/laporan", exact: true, component: () => <Laporan /> },
+    { path: "/paspor", exact: true, component: () => <Paspor /> },
+    { path: "/intal", exact: true, component: () => <Intal /> },
+    { path: "/perlintasan", exact: true, component: () => <Perlintasan /> },
+    { path: "/gakum", exact: true, component: () => <Gakum /> },
+    { path: "/pnbp", exact: true, component: () => <Pnbp /> },
   ];
   const authRoutes = [
     { path: "/", exact: true, component: () => <Login /> },
