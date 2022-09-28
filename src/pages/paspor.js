@@ -1,3 +1,4 @@
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import loadable from "@loadable/component";
 import styled from "styled-components";
 import DatePicker from "react-datepicker"
@@ -8,7 +9,7 @@ import { axiosGeneral, errorHandler } from "../components/helpers/global";
 import Select from "react-select";
 import { useToasts } from "react-toast-notifications";
 // import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps"
+import { ComposableMap, Geographies, Geography, Markers, ZoomableGroup } from "react-simple-maps"
 import {
     Cell,
     LineChart,
@@ -28,7 +29,6 @@ import {
 const MainLayout = loadable(() => import("../components/MainLayout"));
 const geoWorld = "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json"
 const geoAsia =  "https://raw.githubusercontent.com/deldersveld/topojson/master/continents/asia.json"
-
 function Paspor() {
     const [year, setYear] = useState(new Date().getFullYear());
     const [listYears, setListYears] = useState([]);
@@ -86,25 +86,27 @@ function Paspor() {
     }
 
   return (
-    <div className="w-screen">
-      <MainLayout>
-            <div className="flex">
-            {/*mapp*/}
-            <div className=" w-4/5 h-screen">
-                <div className="ml-96">
-                    <Select
-                        className="w-44"
-                        placeholder="Pilih Tahun"
-                        name="years"
-                        onChange={(e) => {
-                        const val = e ? e.value : "";
-                        setYear(val);
-                        }}
-                        value={listYears.find((op) => op.value === year)}
-                        options={listYears}
-                    />                
-                </div>
-                <ComposableMap>
+    <MainLayout>
+        <MapContainer center={[-2.1556299410997055, 106.16382657378412]} zoom={13} scrollWheelZoom={false}>
+        <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            
+        />
+        <Marker position={[-2.1556299410997055, 106.16382657378412]}>
+            <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+        </Marker>
+        </MapContainer>
+    </MainLayout>
+  );
+}
+
+export default Paspor;
+
+{/*----------------------------------------------------------------------------------------------------------*/}
+                {/* <ComposableMap>
                     <ZoomableGroup 
                         zoom={position.zoom}
                         center={position.coordinates}
@@ -142,7 +144,8 @@ function Paspor() {
                             </g>
                         </Marker>
                     </ZoomableGroup>
-                </ComposableMap>
+                </ComposableMap> */}
+                {/*----------------------------------------------------------------------------------------------------------*/}
                 {/* <LoadScript googleMapsApiKey="AIzaSyCN5RsuQUGXEAd3TqNpEkHygtmhFxNiDZk">
                     <GoogleMap
                         mapContainerClassName="w-full h-full rounded-xl"
@@ -152,40 +155,3 @@ function Paspor() {
                         <Marker key="location" position={defaultCenter} />
                     </GoogleMap>
                 </LoadScript> */}
-            </div>
-            {/*------------------------------------------------------------------------------------------------------------------------*/}
-
-
-            {/*chart*/}
-            <div className=" w-1/4 h-96">
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart width={400} height={400}>
-                    <Pie
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={renderLabel}
-                    >
-                        {data.map((entry, index) => (
-                        <Cell 
-                        fill={entry.name == "Perempuan" ? "#A0A0A0" : "#404040"}
-                        key={`cell-` + index}
-                        label={entry.name}
-                        />
-                        ))}
-                    </Pie>
-                    </PieChart>
-                </ResponsiveContainer>
-                <div className="text-center">
-                    <p>PNBP Paspor : 28.000.000</p>
-                </div>
-            </div>
-            {/*------------------------------------------------------------------------------------------------------------------------*/}
-        </div>
-      </MainLayout>
-    </div>
-  );
-}
-
-export default Paspor;

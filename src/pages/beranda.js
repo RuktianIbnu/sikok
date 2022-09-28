@@ -1,6 +1,6 @@
 import loadable from "@loadable/component";
 import styled from "styled-components";
-const MainLayout = loadable(() => import("../components/MainLayout"));
+
 import Select from "react-select";
 import {
   Cell,
@@ -23,6 +23,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setLoading } from "../store/actionCreator";
 import { useState, useEffect } from "react";
 import { Card } from "../components/Card";
+
+const MainLayout = loadable(() => import("../components/MainLayout"));
 
 
 function Beranda() {
